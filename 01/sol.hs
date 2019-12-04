@@ -13,11 +13,9 @@ fuel_simpl :: Integer -> Integer
 fuel_simpl x = (x `div` 3) - 2
 
 fuel_recur :: Integer -> Integer
-fuel_recur x
-  | x < 9 = 0
-  | otherwise =
-    let fuel = ((x `div` 3) - 2) in
-      fuel + fuel_recur fuel
+fuel_recur x =
+  let fuel = ((x `div` 3) - 2) in
+    if fuel <= 0 then 0 else fuel + fuel_recur fuel
 
 main :: IO ()
 main = do
