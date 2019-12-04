@@ -12,6 +12,9 @@ import Text.Printf
 import System.Environment
 import System.Exit
 import qualified Data.Map
+import Data.List hiding (intersect)
+import Data.Maybe()
+import Data.Functor.Classes
 
 type Point = (Int, Int)
 data Line =
@@ -98,17 +101,14 @@ distmap wire =
         getWireDists d (l:ls) = getLineDists d (pointsOn l) ++ getWireDists (d + len l) ls
 
 findShortest :: [Line] -> [Line] -> [Point] -> Maybe (Point, Int)
-findShortest l1 l2 ps = aux (distmap l1) (distmap l2) ps
-  where aux _ _ [] = Nothing
-        aux dm1 dm2 (p:ps) = do
-          d1 <- Data.Map.lookup p dm1
-          d2 <- Data.Map.lookup p dm2
-          let d = (d1 + d2)
-          case aux dm1 dm2 ps of
-            Nothing -> Just (p, d)
-            Just (oldp, oldd)
-              | d < oldd -> Just (p, d)
-              | otherwise -> Just (oldp, oldd)
+findShortest l1 l2 ps =
+  minimumBy (liftCompare (\(_, pdist) (_, qdist) -> compare pdist qdist)) $
+  map (\p -> do
+           d1 <- Data.Map.lookup p dm1
+           d2 <- Data.Map.lookup p dm2
+           return (p, d1 + d2)) ps
+  where dm1 = distmap l1
+        dm2 = distmap l2
 
 main :: IO ()
 main = do
