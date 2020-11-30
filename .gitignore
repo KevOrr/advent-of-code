@@ -1,2 +1,6 @@
 *.fasl
 *.o
+
+*.cabal
+.stack-work/
+.hspec-failures
