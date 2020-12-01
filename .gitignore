@@ -4,3 +4,5 @@
 *.cabal
 .stack-work/
 .hspec-failures
+dist/
+dist-newstyle/
