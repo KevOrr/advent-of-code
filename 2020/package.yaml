@@ -1,0 +1,43 @@
+name:                Advent2020
+version:             0.1.0.0
+github:              "kevorr/programming-challenges"
+author:              "Kevin Orr"
+
+extra-source-files: []
+
+default-extensions:
+  - ViewPatterns
+  - TypeApplications
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  dependencies:
+    - combinat
+    - parsec
+
+executables:
+  2020:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - Advent2020
+
+tests:
+  Advent2020-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - Advent2020
+    - hspec
+    - hspec-expectations-pretty-diff

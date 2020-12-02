@@ -2,4 +2,9 @@ resolver:
   url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/16/23.yaml
 
 packages:
+  - "util"
   - "2017"
+  - "2020"
+
+extra-deps:
+  - combinat-0.2.9.0
