@@ -5,6 +5,7 @@ import Data.Maybe (fromMaybe)
 
 import qualified Day01
 import qualified Day02
+import qualified Day03
 
 spec :: Spec
 spec = do
@@ -34,6 +35,24 @@ spec = do
       it "example 3" $
         Day02.part2 "2-9 c: ccccccccc" `shouldBe` "0"
 
+  describe "Day 03" $ do
+    let test = "..##.......\n\
+               \#...#...#..\n\
+               \.#....#..#.\n\
+               \..#.#...#.#\n\
+               \.#...##..#.\n\
+               \..#.##.....\n\
+               \.#.#.#....#\n\
+               \.#........#\n\
+               \#.##...#...\n\
+               \#...##....#\n\
+               \.#..#...#.#"
+    context "Part 1" $ do
+      it "works on example input" $ do
+        Day03.part1 test `shouldBe` "7"
+    context "Part 2" $ do
+      it "works on example input" $ do
+        Day03.part2 test `shouldBe` "336"
 
 main :: IO ()
 main = hspec spec
