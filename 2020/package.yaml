@@ -17,6 +17,7 @@ library:
   dependencies:
     - combinat
     - parsec
+    - containers
 
 executables:
   2020:

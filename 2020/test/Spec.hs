@@ -1,24 +1,21 @@
 import Test.Hspec
 
+import Data.List (sort)
+import Data.Maybe (fromMaybe)
+
 import qualified Day01
 import qualified Day02
 
 spec :: Spec
 spec = do
   describe "Day 01" $ do
+    let test = [1721, 979, 366, 299, 675, 1456]
     context "Part 1" $ do
       it "works on example input" $
-        True
-      --   sort (Day01.naive2Sum 2020
-      --         [ 1721
-      --         , 979
-      --         , 366
-      --         , 299
-      --         , 675
-      --         , 1456
-      --         ])
-      --   `shouldBe`
-      --   (299, 1721)
+        (sort . fromMaybe [] $ Day01.sum2 2020 test) `shouldBe` [299, 1721]
+    context "Part 2" $ do
+      it "works on example input" $
+        (sort . fromMaybe [] $ Day01.sumn 3 2020 test) `shouldBe` [366, 675, 979]
 
   describe "Day 02" $ do
     context "Part 1" $ do
