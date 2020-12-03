@@ -30,7 +30,7 @@ single a = take 1 . drop a
 
 checkPolPart1 :: Policy -> Bool
 checkPolPart1 p = polLow p <= freq && freq <= polHigh p
-  where freq = length . filter (== (polChar p)) $ polPass p
+  where freq = length . filter (== polChar p) $ polPass p
 
 checkPolPart2 :: Policy -> Bool
 checkPolPart2 p = (polChar p `elem` single (polLow p - 1) (polPass p)) `xor` (polChar p `elem` single (polHigh p - 1) (polPass p))
