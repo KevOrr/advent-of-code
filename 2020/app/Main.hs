@@ -15,6 +15,7 @@ import System.Exit
 import qualified Day01
 import qualified Day02
 import qualified Day03
+import qualified Day04
 
 newtype Day = Day Int
 
@@ -27,6 +28,8 @@ getRunner (Day 2) One = Just Day02.part1
 getRunner (Day 2) Two = Just Day02.part2
 getRunner (Day 3) One = Just Day03.part1
 getRunner (Day 3) Two = Just Day03.part2
+getRunner (Day 4) One = Just Day04.part1
+getRunner (Day 4) Two = Just Day04.part2
 getRunner _ _ = Nothing
 
 parseDay :: String -> Either String Day

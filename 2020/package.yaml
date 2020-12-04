@@ -8,6 +8,7 @@ extra-source-files: []
 default-extensions:
   - ViewPatterns
   - TypeApplications
+  - LambdaCase
 
 dependencies:
 - base >= 4.7 && < 5
