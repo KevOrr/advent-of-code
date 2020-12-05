@@ -2,11 +2,14 @@ import Test.Hspec
 
 import Data.List (sort)
 import Data.Maybe (fromMaybe)
+import Data.Foldable (traverse_)
+import Text.Printf (printf)
 
 import qualified Day01
 import qualified Day02
 import qualified Day03
 import qualified Day04
+import qualified Day05
 
 spec :: Spec
 spec = do
@@ -107,6 +110,14 @@ spec = do
 
       it "cid:_|_ is valid" $ do
         Day04.validate "cid" undefined `shouldBe` True
+
+  describe "Day 05" $
+    traverse_
+    (\(s, n) -> it (printf "parses \"%s\" as %d" s n) $ Day05.parseSeat s `shouldBe` n)
+    [ ("BFFFBBFRRR", 567)
+    , ("FFFBBBFRRR", 119)
+    , ("BBFFBBFRLL", 820)
+    ]
 
 main :: IO ()
 main = hspec spec

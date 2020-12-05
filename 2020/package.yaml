@@ -19,6 +19,7 @@ library:
     - combinat
     - parsec
     - containers
+    - criterion
 
 executables:
   2020:
