@@ -21,6 +21,9 @@ import qualified Day05
 import qualified Day06
 import qualified Day07
 
+data Part = One | Two
+newtype Day = Day Int
+
 getRunner :: Day -> Part -> Maybe (String -> String)
 getRunner (Day 1) One = Just Day01.part1
 getRunner (Day 1) Two = Just Day01.part2
