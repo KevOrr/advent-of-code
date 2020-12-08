@@ -11,16 +11,15 @@ import System.Exit
     ( ExitFailure
     )
   )
+import qualified Criterion.Main as C
 
 import qualified Day01
 import qualified Day02
 import qualified Day03
 import qualified Day04
 import qualified Day05
-
-newtype Day = Day Int
-
-data Part = One | Two
+import qualified Day06
+import qualified Day07
 
 getRunner :: Day -> Part -> Maybe (String -> String)
 getRunner (Day 1) One = Just Day01.part1
@@ -33,6 +32,10 @@ getRunner (Day 4) One = Just Day04.part1
 getRunner (Day 4) Two = Just Day04.part2
 getRunner (Day 5) One = Just Day05.part1
 getRunner (Day 5) Two = Just Day05.part2
+getRunner (Day 6) One = Just Day06.part1
+getRunner (Day 6) Two = Just Day06.part2
+getRunner (Day 7) One = Just Day07.part1
+getRunner (Day 7) Two = Just Day07.part2
 getRunner _ _ = Nothing
 
 parseDay :: String -> Either String Day
@@ -47,8 +50,8 @@ parsePart s
   | (toLower <$> s) `elem` ["2", "two"] = Right Two
   | otherwise = Left $ "Not \"one\" (or \"1\") or \"two\" (or \"2\"): " <> show s
 
-main :: IO ()
-main = do
+run :: IO ()
+run = do
   executable <- getProgName
   args <- getArgs
   if length args /= 2 then do
@@ -59,3 +62,7 @@ main = do
         Right part = parsePart (args !! 1)
         Just runner = getRunner day part
     getContents >>= putStrLn . runner
+
+main :: IO ()
+main = run
+--main = C.defaultMain [ C.bench "part1" . C.nfIO $ readFile "f" >>= putStrLn . Day07.part1]

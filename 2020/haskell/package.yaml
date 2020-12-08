@@ -9,6 +9,11 @@ default-extensions:
   - ViewPatterns
   - TypeApplications
   - LambdaCase
+  - MultiWayIf
+  - RankNTypes
+  - GADTs
+  - MultiParamTypeClasses
+  - FlexibleInstances
 
 dependencies:
 - base >= 4.7 && < 5
@@ -20,6 +25,7 @@ library:
     - parsec
     - containers
     - criterion
+    - text
 
 executables:
   2020:
@@ -31,6 +37,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - Advent2020
+    - criterion
 
 tests:
   Advent2020-test:

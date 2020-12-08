@@ -119,5 +119,11 @@ spec = do
     , ("BBFFBBFRLL", 820)
     ]
 
+  describe "Day 06" $ do
+    it "asdf" True
+
+  describe "Day 07" $ do
+    it "asdf" True
+
 main :: IO ()
 main = hspec spec
