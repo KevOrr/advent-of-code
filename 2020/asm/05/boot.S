@@ -34,7 +34,7 @@
 %endmacro
 
 ;;; Indented so the columns are 20+x
-%define line01      `123456789\n`
+;; %define line01      `                                 \n`
 %define line02      `                                   @@\n`
 %define line03      `                                  @@@@\n`
 %define line04      `                                 @*@,@@\n`
@@ -127,7 +127,7 @@
 ;;; Tip of the tree doesn't have enough space for instructions, so just jump to line 6
 l01:
     jump l04_target             ; TODO can this be shorter?
-    putsub line01, ($-l01)
+    db `\n`
 
     db line02
     db line03
