@@ -126,7 +126,7 @@
 
 ;;; Tip of the tree doesn't have enough space for instructions, so just jump to line 6
 l01:
-    jump l04_target
+    jump l04_target             ; TODO can this be shorter?
     putsub line01, ($-l01)
 
     db line02
@@ -140,13 +140,20 @@ l04_target:
 
     db line05
 
+;;; Set ds to 0x7e00
 l06:
     putsub line06, 0, 22
 l06_target:
-    db "asdfasdfasdf"
-
-    push '[]'
+    push ']a'
     pop ax
-    xor ax, '[]'
-    mov es, cx
-    mov es, cx
+    xor ax, '3a'                ; '5d61' ^ '3361' = '7e00'
+    cmp ax, `e\xc3`             ; utf-8 alignment nop
+    mov ds, ax
+    mov di, [0x6c6c]            ; utf-8 alignment nop
+    jump l07_target
+
+    putsub line06, ($-l06)
+
+l07:
+    putsub line07, 0, 30
+l07_target:
