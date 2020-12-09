@@ -19,7 +19,7 @@ import qualified Day03
 import qualified Day04
 import qualified Day05
 import qualified Day06
-import qualified Day07
+import qualified Day09
 
 data Part = One | Two
 newtype Day = Day Int
@@ -37,8 +37,9 @@ getRunner (Day 5) One = Just Day05.part1
 getRunner (Day 5) Two = Just Day05.part2
 getRunner (Day 6) One = Just Day06.part1
 getRunner (Day 6) Two = Just Day06.part2
-getRunner (Day 7) One = Just Day07.part1
-getRunner (Day 7) Two = Just Day07.part2
+getRunner (Day 9) One = Just Day09.part1
+getRunner (Day 9) Two = Just Day09.part2
+-- getRunner (Day 7) Two = Just Day07.part2
 getRunner _ _ = Nothing
 
 parseDay :: String -> Either String Day
