@@ -8,7 +8,7 @@
 %macro jump 1
     push '{}'
     pop ax
-    cmp ax, '{}'
+    cmp al, '{'
     je short %1
 %endmacro
 
@@ -39,13 +39,13 @@
 %define line03      `                                  @@@@\n`
 %define line04      `                                 @*@,@@\n`
 %define line05      `                               @@@,#,@@@\n`
-%define line06      `                     .@@@@@@@@@@@,,,,,@@@@@@@@@@,\n`
-%define line07      `                      '@@@@@,,,,,,,,,,,,@@@@@#\n`
+%define line06      `                      @@@@@@@@@@@,,,,,@@@@@@@@@@,\n`
+%define line07      `                         @@@,,,,,,,,,,,,@@@@@#\n`
 %define line08      `                           ,@@@,,,(,,,,,@@@\n`
 %define line09      `                             @,,%#,,,,@,,@@\n`
 %define line10      `                            @*,@,@@@@@@,@@,@\n`
 %define line11      `                           @@@@@@@,,,@. @@@@@@\n`
-%define line12      `                           @@  @@,,@*@@\n`
+%define line12      `                               @@,,@*@@\n`
 %define line13      `                              .@@,,@@,@@\n`
 %define line14      `                              @@//(////@@\n`
 %define line15      `                             @@////////(@@@@\n`
@@ -124,7 +124,7 @@
 ;; %strlen len43 line43
 ;; %strlen len44 line44
 
-;;; Tip of the tree doesn't have enough space for instructions, so just jump to line 6
+;;; Tip of the tree doesn't have enough space for instructions, so just jump to later
 l01:
     jump l04_target             ; TODO can this be shorter?
     db `\n`
@@ -135,25 +135,61 @@ l01:
 l04:
     putsub line04, 0, 35
 l04_target:
-    je l06_target
+    je l05_target
     putsub line04, ($-l04)
 
-    db line05
+;;; Save dx for BIOS interrupts
+l05:
+    putsub line05, 0, 30
+l05_target:
+    push dx
+    je l06_target
+    putsub line05, ($-l05)
 
-;;; Set ds to 0x7e00
+;;; push 0x07e0; es <- 0x07e0
 l06:
-    putsub line06, 0, 22
+    putsub line06, 0, 24
 l06_target:
-    push ']a'
+    push 'pa'
     pop ax
-    xor ax, '3a'                ; '5d61' ^ '3361' = '7e00'
-    cmp ax, `e\xc3`             ; utf-8 alignment nop
-    mov ds, ax
-    mov di, [0x6c6c]            ; utf-8 alignment nop
-    jump l07_target
+    xor ax, 'xa'                ; 7000 ^ 7800 = 0800
+    dec ax                      ; 07ff
+    xor al, '!'                 ; 07de
+    xor al, '>'                 ; 07e0
+    push ax
+    push ax
+    pop dx
+    cmp ax, `e\xc3`             ; utf-8 alignment nop [c3
+    mov es, dx                  ; 8e] [c2
+    mov al, 't'                 ; b0] utf-8 alignment nop
+    jle l07_target
 
-    putsub line06, ($-l06)
+    putsub line06, (($-2)-l06)  ; -2 because of the two unicode chars used above
 
+;;; pop ds (0x07e0)
 l07:
-    putsub line07, 0, 30
+    putsub line07, 0, 31
 l07_target:
+    pop ax
+    cmp ax, `e\xc3`             ; utf-8 alignment nop [c3
+    mov ds, ax                  ; 8e] [d8
+    mov di, [0x6c6c]            ; 8b] utf-8 alignment nop
+    jle l08_target
+
+    putsub line07, (($-2)-l07)
+
+l08:
+    putsub line08, 0, 30
+l08_target:
+    jump l09_target
+
+    putsub line08, ($-l08)
+
+l09:
+    putsub line09, 0, 33
+l09_target:
+
+
+
+    hlt
+    db 0,0,0,0
