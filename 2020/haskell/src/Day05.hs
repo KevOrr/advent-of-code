@@ -7,7 +7,7 @@ binToDec :: [Bool] -> Int
 binToDec = foldl' (\a x -> 2*a + fromEnum x) 0
 
 parseSeat :: String -> Int
-parseSeat = binToDec . fmap (`elem` "BR")
+parseSeat = binToDec . fmap (`elem` ['B', 'R'])
 
 part1 :: String -> String
 part1 = show . maximum . fmap parseSeat . lines

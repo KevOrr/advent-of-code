@@ -14,6 +14,7 @@ default-extensions:
   - GADTs
   - MultiParamTypeClasses
   - FlexibleInstances
+  - OverloadedStrings
 
 dependencies:
 - base >= 4.7 && < 5
@@ -26,6 +27,7 @@ library:
     - containers
     - criterion
     - text
+    - safe
 
 executables:
   2020:
