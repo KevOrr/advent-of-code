@@ -28,6 +28,7 @@ library:
     - criterion
     - text
     - safe
+    - split
 
 executables:
   2020:
