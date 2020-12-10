@@ -15,7 +15,7 @@ preprocess :: String -> [Int]
 preprocess = (\xs -> (minimum xs - 1) : xs ++ [maximum xs + 3]) . sort . fmap (read @Int) . lines
 
 trib :: Int -> Integer
-trib = (tribs 0 1 1 !!)
+trib = (tribs 1 1 2 !!)
   where tribs a b c = a : tribs b c (a + b + c)
 
 part1 :: String -> String
