@@ -21,6 +21,8 @@ import qualified Day05
 import qualified Day06
 import qualified Day09
 import qualified Day10
+import qualified Day11
+import qualified Day12
 
 data Part = One | Two
 newtype Day = Day Int
@@ -42,6 +44,10 @@ getRunner (Day 9) One = Just Day09.part1
 getRunner (Day 9) Two = Just Day09.part2
 getRunner (Day 10) One = Just Day10.part1
 getRunner (Day 10) Two = Just Day10.part2
+getRunner (Day 11) One = Just Day11.part1
+getRunner (Day 11) Two = Just Day11.part2
+getRunner (Day 12) One = Just Day12.part1
+getRunner (Day 12) Two = Just Day12.part2
 -- getRunner (Day 7) Two = Just Day07.part2
 getRunner _ _ = Nothing
 
