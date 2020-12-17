@@ -15,6 +15,8 @@ default-extensions:
   - MultiParamTypeClasses
   - FlexibleInstances
   - OverloadedStrings
+  - BlockArguments
+  - ScopedTypeVariables
 
 dependencies:
 - base >= 4.7 && < 5
@@ -22,13 +24,17 @@ dependencies:
 library:
   source-dirs: src
   dependencies:
+    - array
     - combinat
-    - parsec
+    - megaparsec
     - containers
+    - unordered-containers
     - criterion
     - text
     - safe
     - split
+    - parser-combinators
+    - parsec
 
 executables:
   2020:
@@ -36,6 +42,8 @@ executables:
     source-dirs:         app
     ghc-options:
     - -threaded
+    - -O2
+    - -optc-O2
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
