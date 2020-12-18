@@ -152,16 +152,16 @@ l06:
 l06_target:
     push 'pa'
     pop ax
-    xor ax, 'xa'                ; 7000 ^ 7800 = 0800
+    xor ax, 'xa'                ; 7061 ^ 7861 = 0800
     dec ax                      ; 07ff
     xor al, '!'                 ; 07de
     xor al, '>'                 ; 07e0
     push ax
     push ax
     pop dx
-    cmp ax, `e\xc3`             ; utf-8 alignment nop [c3
+    cmp ax, `e\xc3`             ; utf-8 alignment nop [65] [c3
     mov es, dx                  ; 8e] [c2
-    mov al, 't'                 ; b0] utf-8 alignment nop
+    mov al, 't'                 ; b0] [74] utf-8 alignment nop
     jle l07_target
 
     putsub line06, (($-2)-l06)  ; -2 because of the two unicode chars used above
