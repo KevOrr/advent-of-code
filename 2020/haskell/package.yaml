@@ -17,6 +17,7 @@ default-extensions:
   - OverloadedStrings
   - BlockArguments
   - ScopedTypeVariables
+  - TupleSections
 
 dependencies:
 - base >= 4.7 && < 5
@@ -28,6 +29,7 @@ library:
     - combinat
     - megaparsec
     - containers
+    - multi-containers
     - unordered-containers
     - criterion
     - text
@@ -35,6 +37,10 @@ library:
     - split
     - parser-combinators
     - parsec
+    - ansi-terminal
+    - deepseq
+    - monad-loops
+    - mtl
 
 executables:
   2020:

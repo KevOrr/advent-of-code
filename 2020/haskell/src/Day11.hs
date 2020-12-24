@@ -1,17 +1,19 @@
 module Day11 where
 
-import Control.Monad ((>=>))
+import Control.Monad
 import Data.Maybe (catMaybes, fromJust)
 import Data.List
 import qualified Data.Map.Strict as M
-import System.IO
+import qualified System.Console.ANSI as ANSI
+import qualified Control.DeepSeq as DS
+import Control.Concurrent
 
 data Plane a = Plane a [a] [a] [[a]] [[a]]
   deriving (Eq, Show)
 
 iterUntil :: (a -> Bool) -> (a -> Maybe a) -> a -> Maybe a
 iterUntil pred f x
-  | Just x' <- f x = if pred x' then Just x else iterUntil pred f x'
+  | Just x' <- f x = if pred x' then Just x' else iterUntil pred f x'
   | otherwise = Nothing
 
 listToPlane :: [[a]] -> Maybe (Plane a)
@@ -72,17 +74,43 @@ stepSeat f n p
   | otherwise = getCur p
 
 step :: (Plane Char -> [Char]) -> Int -> Plane Char -> Plane Char
-step f n x = fromJust . listToPlane . go $ x
+step f n = fromJust . listToPlane . go
   where
     go p = go1 p : maybe [] go (down p)
     go1 p = stepSeat f n p : maybe [] go1 (right p)
 
-run :: (Plane Char -> [Char]) -> Int -> Plane Char -> Plane Char
-run f n x = if x == x' then x else run f n x'
+run :: (Plane Char -> [Char]) -> Int -> Plane Char -> [Plane Char]
+run f n x = if x == x' then [x] else x : run f n x'
   where x' = step f n x
 
-part1 :: String -> String
-part1 = show . M.findWithDefault 0 '#' . frequencies . concat . planeToList . run adjacent 4 . fromJust . listToPlane . lines
+runner :: (Plane Char -> [Char]) -> Int -> String -> IO ()
+runner f n s = do
+  ANSI.clearScreen
+  ANSI.setSGR []
+  ANSI.hideCursor
+  let planes = run f n . fromJust . listToPlane . lines $ s
+  forM_ planes $ \(DS.force . planeToList -> p) -> do
+    ANSI.setCursorPosition 0 0
+    forM_ p $ \row -> do
+      forM_ row $ \seat -> do
+        case seat of
+          'L' -> ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Dull ANSI.Green,
+                              ANSI.SetColor ANSI.Background ANSI.Dull ANSI.Green]
+          '#' -> ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Dull ANSI.Red,
+                              ANSI.SetColor ANSI.Background ANSI.Dull ANSI.Red]
+          '.' -> ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Dull ANSI.Black,
+                              ANSI.SetColor ANSI.Background ANSI.Dull ANSI.Black]
+          _ -> pure ()
+        putChar seat
+      ANSI.cursorDown 1
+      ANSI.setCursorColumn 0
+  ANSI.setSGR []
+  ANSI.showCursor
+  print . M.findWithDefault 0 '#' . frequencies . concat . planeToList . last $ planes
 
-part2 :: String -> String
-part2 = show . M.findWithDefault 0 '#' . frequencies . concat . planeToList . run (raycast "L#") 5 . fromJust . listToPlane . lines
+
+part1 :: String -> IO ()
+part1 = runner adjacent 4
+
+part2 :: String -> IO ()
+part2 = runner (raycast "L#") 5
