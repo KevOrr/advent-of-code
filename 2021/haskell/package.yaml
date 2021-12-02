@@ -1,0 +1,65 @@
+name:                advent2021
+version:             0.1.0.0
+github:              "kevorr/programming-challenges"
+author:              "Kevin Orr"
+
+extra-source-files: []
+
+default-extensions:
+  - ViewPatterns
+  - TypeApplications
+  - LambdaCase
+  - MultiWayIf
+  - RankNTypes
+  - GADTs
+  - MultiParamTypeClasses
+  - FlexibleInstances
+  # - OverloadedStrings
+  - BlockArguments
+  - ScopedTypeVariables
+  - RankNTypes
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  dependencies:
+    - array
+    - combinat
+    - megaparsec
+    - containers
+    - unordered-containers
+    - criterion
+    - text
+    - safe
+    - split
+    - parser-combinators
+    - parsec
+
+executables:
+  2021:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -O2
+    - -optc-O2
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - advent2021
+    - criterion
+
+tests:
+  advent2021-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - advent2021
+    - hspec
+    - hspec-expectations-pretty-diff
